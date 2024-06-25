@@ -1,8 +1,8 @@
 <x-template-layout>
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+    <h2 class="text-xl font-semibold leading-tight text-gray-800">
         {{$title}}
     </h2>
-    <div class="shadow px-6 py-4 bg-white rounded sm:px-2 sm:py-1 sm:br-gray-100">
+    <div class="px-6 py-4 bg-white rounded shadow sm:px-2 sm:py-1 sm:br-gray-100">
         <div class="container">
             <form action="{{(isset($pasarbanyuasri))?route('pasarbanyuasri.update',$pasarbanyuasri->id_pasarbanyuasri):route('pasarbanyuasri.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -20,19 +20,17 @@
                 <div class="form-group row">
                     <label for="kode" class="col-sm-2 col-form-label">Kode Pangan</label>
                     <div class="col-sm-5">
-                        <input type="number" name="kode" id="kode" autocomplete="family-name" value="{{(isset($pasarbanyuasri))?$pasarbanyuasri->kode:old('kode') }}" class="mt-1  @error('kode') border-red-500 @enderror  form-control">
+                        <input type="number" name="kode" id="kode" required readonly autocomplete="family-name" value="{{(isset($pasarbanyuasri))?$pasarbanyuasri->kode:old('kode') }}" class="mt-1  @error('kode') border-red-500 @enderror  form-control">
                         <div class="text-xs text-red-600">@error('kode'){{$message}} @enderror</div>
                     </div>
                 </div><br>
 
 
                 <div class="form-group row">
-                    <label for="harga" class="col-sm-2 col-form-label">Harga Pangan</label>
+                    <label for="id_barang" class="col-sm-2 col-form-label">Nama Pangan</label>
                     <div class="col-sm-5">
-                        <select class="form-control" name="id_barang" id="id_barang">
-                            <option disabled value>Pilih Jurusan</option>
-
-
+                        <select class="form-control" name="id_barang" id="id_barang" onchange="getCode(this.value)">
+                            <option value="{{(isset($pasarbanyuasri))?$pasarbanyuasri->namaBarang->id_barang:old('id_barang') }}">{{ @$pasarbanyuasri ? $pasarbanyuasri->namaBarang->nama : "Pilih Pangan"}}</option>
                             @foreach($barang as $item)
                             <option value="{{$item->id_barang}}">{{$item->nama}}</option>
                             @endforeach
@@ -65,4 +63,16 @@
             </form>
         </div>
     </div>
+    <script>
+        function getCode(kode){
+            fetch(`/get-code-barang?id=${kode}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('kode').value = data.kode;
+                })
+                .catch(error => {
+                    console.error('Error fetching code:', error);
+                });
+        }
+    </script>
 </x-template-layout>

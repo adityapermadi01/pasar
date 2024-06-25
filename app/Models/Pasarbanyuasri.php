@@ -18,8 +18,9 @@ class Pasarbanyuasri extends Model
         'id_barang',
         'id_pasarbanyuasri'
     ];
-    public function databarang()
+    
+    public function namaBarang()
     {
-        return $this->belongsTo(Barang::class, 'id_barang');
+        return $this->belongsTo(Barang::class, 'kode', 'kode');
     }
 }

@@ -15,4 +15,5 @@ class Barang extends Model
         'nama',
         'id_barang'
     ];
+
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Databarangcontroller;
 use App\Http\Controllers\Pasaranyarcontroller;
 use App\Http\Controllers\Pasarbanyuasricontroller;
+use App\Models\Pasarbanyuasri;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,4 +33,5 @@ Route::middleware([
     Route::get('/Halaman_Admin', [AdminController::class, 'index'])->middleware(['auth:sanctum', 'verified']);
     Route::resource('databarang', Databarangcontroller::class);
     Route::resource('pasarbanyuasri', Pasarbanyuasricontroller::class);
+    Route::get('/get-code-barang', [Pasarbanyuasricontroller::class, 'getCode'])->name('getCodeBarang');
 });
